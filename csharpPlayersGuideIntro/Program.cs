@@ -243,15 +243,14 @@ namespace Methods
             //int[] numbers = GenerateNumbers(10);
             //int[] reversedArray = ArrayReverse(numbers);
             //PrintNumbers(reversedArray);
-            Console.WriteLine(Multiply(2, 4));
-            Console.WriteLine(Multiply(2, 4, 2));
-            Console.WriteLine(Fibonacci(8));
-
-            //for (int i = 0; i < 11; i++)
-            //{
-            //    Console.WriteLine(Fibonacci(i));
-            //}
-        }
+            //Console.WriteLine(Multiply(2, 4));
+            //Console.WriteLine(Multiply(2, 4, 2));
+            //Console.WriteLine(Fibonacci(8));
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            //Random random = new Random();
+            //Console.WriteLine(random.Next(6) + 1);
+            DiceRollingProgram();
+		}
 
         static int[] GenerateNumbers(int arrayLength)
         {
@@ -287,6 +286,15 @@ namespace Methods
         {
             return num1 * num2;
         }
+
+        /// <summary>
+        /// Method Overloading. Takes three numbers, multiplies each,
+        /// and returns the result
+        /// </summary>
+        /// <param name="num1"></param>
+        /// <param name="num2"></param>
+        /// <param name="num3"></param>
+        /// <returns></returns>
         static int Multiply(int num1, int num2, int num3)
         {
             return num1 * num2 * num3;
@@ -295,16 +303,66 @@ namespace Methods
         static int Fibonacci(int number)
         {
             if (number == 1 || number == 2)
-            {
                 return number;
-            }
+            
             else
-            {
-                // we need to add the current number with the previous
                 return Fibonacci(number - 1) + Fibonacci(number - 2);
-
-            }
-
         }
+
+        static void DiceRollingProgram()
+		{
+            int numberOfDice = GetNumberOfDice();
+            List<int> diceRollValues = GetDiceRollValues(numberOfDice);
+            PrintDiceRollValues(diceRollValues);
+		}
+
+        static int GetNumberOfDice()
+		{
+            Console.WriteLine("How many dice would you like to roll?\n");
+            var numberOfDice = Convert.ToInt32(Console.ReadLine());
+            if (!ValidNumberOfDice(numberOfDice)) return GetNumberOfDice();
+            else return numberOfDice;
+		}
+
+        static bool ValidNumberOfDice(int numberOfDice)
+		{
+            if (numberOfDice > 100)
+			{
+                Console.WriteLine("That's too many dice!");
+                return false;
+			}
+            else if (numberOfDice < 0)
+			{
+                Console.WriteLine("You can't roll dice you don't have!");
+                return false;
+			}
+            else
+                return true;
+		}
+
+        static List<int> GetDiceRollValues(int numberOfDice)
+		{
+            Console.WriteLine("Rolling your dice...");
+            Random random = new Random();
+            List<int> diceRolls = new List<int>();
+            int diceRollValue;
+
+            for (int i = 0; i < numberOfDice; i++)
+			{
+                diceRollValue = random.Next(6) + 1;
+                diceRolls.Add(diceRollValue);
+			}
+           
+            return diceRolls;
+		}
+
+        static void PrintDiceRollValues(List<int> diceRollValues)
+		{
+            for (int i = 0; i < diceRollValues.Count; i++)
+			{
+                Console.WriteLine($"Roll {i + 1} => {diceRollValues[i]}");
+
+			}
+		}
     }
 }
